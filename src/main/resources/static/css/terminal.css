@@ -1,0 +1,303 @@
+/*
+ * Terminal Style CSS
+ * 터미널 느낌의 채팅 인터페이스 스타일
+ */
+
+/* CSS 변수 정의 - 쉬운 테마 커스터마이징 */
+:root {
+    --bg-color: #1a1a2e;
+    --terminal-bg: #16213e;
+    --header-bg: #0f3460;
+    --text-color: #e0e0e0;
+    --text-dim: #7f8c8d;
+    --prompt-user: #00ff88;
+    --prompt-ai: #00d4ff;
+    --prompt-system: #ffcc00;
+    --accent: #e94560;
+    --border-color: #0f3460;
+    --input-bg: #0d1b2a;
+    --scrollbar-thumb: #0f3460;
+    --scrollbar-track: #1a1a2e;
+}
+
+/* 기본 리셋 및 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+    background: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 터미널 컨테이너 */
+.terminal {
+    width: 100%;
+    max-width: 900px;
+    height: 80vh;
+    background: var(--terminal-bg);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+/* 터미널 헤더 (맥OS 스타일) */
+.terminal-header {
+    background: var(--header-bg);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.terminal-buttons span:hover {
+    opacity: 0.8;
+}
+
+.btn-close {
+    background: #ff5f56;
+}
+
+.btn-minimize {
+    background: #ffbd2e;
+}
+
+.btn-maximize {
+    background: #27ca40;
+}
+
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-right: 52px; /* 버튼 영역만큼 오프셋 */
+}
+
+/* 채팅 본문 영역 */
+.terminal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 커스텀 스크롤바 */
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+    background: #1a4a7a;
+}
+
+/* 메시지 스타일 */
+.message {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.prompt {
+    font-weight: bold;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+.prompt::before {
+    content: '>';
+    margin-right: 4px;
+    color: var(--text-dim);
+}
+
+.user-prompt {
+    color: var(--prompt-user);
+}
+
+.ai-prompt {
+    color: var(--prompt-ai);
+}
+
+.system-prompt {
+    color: var(--prompt-system);
+}
+
+.message .content {
+    color: var(--text-color);
+    flex: 1;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+/* AI 응답 스트리밍 중 커서 애니메이션 */
+.message.streaming .content::after {
+    content: '▋';
+    animation: blink 1s infinite;
+    color: var(--prompt-ai);
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* 시스템 메시지 스타일 */
+.message.system {
+    opacity: 0.7;
+}
+
+.message.system .content {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+/* 에러 메시지 */
+.message.error .content {
+    color: var(--accent);
+}
+
+/* 입력 영역 */
+.terminal-input-area {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--input-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.input-prompt {
+    color: var(--prompt-user);
+    font-weight: bold;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 14px;
+    caret-color: var(--prompt-user);
+}
+
+.terminal-input::placeholder {
+    color: var(--text-dim);
+    opacity: 0.5;
+}
+
+/* 입력 비활성화 상태 */
+.terminal-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 코드 블록 스타일 (마크다운 응답용) */
+.message .content code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.message .content pre {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 8px 0;
+    border-left: 3px solid var(--prompt-ai);
+}
+
+.message .content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .terminal {
+        height: 90vh;
+        border-radius: 8px;
+    }
+
+    .terminal-body {
+        padding: 15px;
+    }
+
+    .message {
+        font-size: 13px;
+    }
+
+    .terminal-input-area {
+        padding: 12px 15px;
+    }
+
+    .input-prompt {
+        font-size: 12px;
+    }
+}
+
+/* 로딩 인디케이터 */
+.loading-dots {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.loading-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--prompt-ai);
+    border-radius: 50%;
+    animation: loadingDot 1.4s infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loadingDot {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+}

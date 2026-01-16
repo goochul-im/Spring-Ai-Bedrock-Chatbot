@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Chat - AWS Bedrock Claude</title>
+    <link rel="stylesheet" th:href="@{/css/terminal.css}">
+</head>
+<body>
+    <div class="terminal">
+        <!-- 터미널 헤더 -->
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="btn-close"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">claude@bedrock: ~/chat</div>
+        </div>
+
+        <!-- 채팅 메시지 영역 -->
+        <div class="terminal-body" id="chatContainer">
+            <!-- 환영 메시지 -->
+            <div class="message system">
+                <span class="prompt system-prompt">system</span>
+                <span class="content">AWS Bedrock Claude 챗봇에 오신 것을 환영합니다.</span>
+            </div>
+            <div class="message system">
+                <span class="prompt system-prompt">system</span>
+                <span class="content">메시지를 입력하고 Enter를 눌러 대화를 시작하세요.</span>
+            </div>
+            <div class="message system">
+                <span class="prompt system-prompt">system</span>
+                <span class="content">명령어: /clear - 대화 기록 초기화, /new - 새 세션 시작</span>
+            </div>
+        </div>
+
+        <!-- 입력 영역 -->
+        <div class="terminal-input-area">
+            <span class="input-prompt">user@local:~$</span>
+            <input type="text"
+                   id="messageInput"
+                   class="terminal-input"
+                   placeholder="메시지를 입력하세요..."
+                   autocomplete="off"
+                   autofocus>
+        </div>
+    </div>
+
+    <script th:src="@{/js/chat.js}"></script>
+</body>
+</html>
